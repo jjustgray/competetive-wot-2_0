@@ -5,7 +5,7 @@ import TeamChat from "@/widgets/team-panel/TeamChat";
 
 export default function MatchmakingPage() {
     return (
-        <div className="min-h-[calc(100vh-120px)] flex flex-col items-center p-2 gap-2">
+        <div className="min-h-[calc(100vh-120px)] flex flex-1 flex-col items-center p-2 gap-2">
             <div className="grid 
                 grid-cols-1
                 lg:grid-cols-[7fr_3fr]
