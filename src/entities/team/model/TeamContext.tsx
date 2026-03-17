@@ -10,7 +10,7 @@ const TeamContext = createContext<TeamContextType | null>(null)
 export function TeamProvider({ children }: { children: React.ReactNode }) {
 
   const user: Player = {
-    player_id: "1001",
+    id: "1001",
     nickname: "Crucial",
     avatar: "/images/avatar.jpeg",
     mmr: 1500,

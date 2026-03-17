@@ -23,6 +23,7 @@ export default function EditTeamName() {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             maxLength={20}
+            size={35}
             className="bg-gray-600 rounded px-2"
           />
 
@@ -42,7 +43,7 @@ export default function EditTeamName() {
         </>
       ) : (
         <>
-          <span>{value}</span>
+          <h2 className="text-xl font-bold">{value}</h2>
 
           <button onClick={startEdit}>
             <Image

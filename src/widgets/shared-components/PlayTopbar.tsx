@@ -7,7 +7,7 @@ export default function PlayTopbar() {
   const pathname = usePathname()
 
   return (
-    <div className="flex items-center gap-6 mb-4 bg-gray-600 p-4">
+    <div className="flex items-center gap-6 bg-gray-600 p-4 rounded-2xl">
       
       <Link
         href="/play/matchmaking"

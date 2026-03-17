@@ -4,103 +4,36 @@ import Image from "next/image"
 import { Player } from "@/entities/player/model/types"
 
 type Props = {
-    slot_number: number
     player?: Player | null
-    isCaptain?: boolean
+    isMe?: boolean
 }
 
-export const TeamSlot = ({ slot_number, player, isCaptain }: Props) => {
+export const TeamSlot = ({ player, isMe }: Props) => {
+    const slotClass = `
+        flex flex-col items-center justify-center gap-2 rounded-xl border p-3 text-center transition-all duration-200
+        ${isMe ? "scale-105 border-blue-500 bg-blue-50 shadow-[0_4px_14px_rgba(59,130,246,0.25)]" : "border-gray-200 bg-white"}
+    `
+
     return (
-        <div className="
-            grid
-            grid-cols-[3rem_4.5rem_1fr_3rem]
-            items-center
-            gap-4
-            p-5
-            rounded-xl
-            border
-            border-gray-700
-            bg-gray-900
-            w-full
-        ">
-
-            {/* SLOT NUMBER */}
-            <div className="
-                w-8
-                h-8
-                flex
-                items-center
-                justify-center
-                rounded-full
-                bg-gray-700
-                text-sm
-                text-white
-                shrink-0
-            ">
-                {slot_number}
-            </div>
-
+        <div className={slotClass}>
             {player ? (
                 <>
-                    {/* AVATAR */}
-                    <Image
-                        src={player.avatar}
-                        alt="avatar"
-                        width={60}
-                        height={60}
-                        className="rounded-full shrink-0"
-                    />
-
-                    {/* PLAYER INFO */}
-                    <div className="flex flex-col min-w-0">
-
-                        <span className="
-                            font-semibold
-                            text-lg
-                            truncate
-                        ">
-                            {player.nickname}
-                        </span>
-
-                        <span className="
-                            text-sm
-                            text-gray-400
-                            font-mono
-                        ">
-                            MMR {player.mmr}
-                        </span>
-
+                    <div className="relative h-16 w-16 overflow-hidden rounded-full border border-gray-300 bg-gray-100">
+                        <Image
+                            src={player.avatar}
+                            alt={player.nickname}
+                            fill
+                            className="object-cover"
+                        />
                     </div>
-
-                    {/* CAPTAIN ICON */}
-                    <div className="flex justify-center items-center">
-
-                        {isCaptain && (
-                            <Image
-                                src="/icons/crown.png"
-                                alt="crown"
-                                width={24}
-                                height={24}
-                            />
-                        )}
-
+                    <div className="font-semibold text-sm text-gray-800">
+                        {player.nickname} {isMe && "(Вы)"}
                     </div>
+                    <div className="text-xs text-gray-500">Рейтинг: {player.mmr}</div>
                 </>
             ) : (
-                <>
-                    {/* пустая колонка аватара */}
-                    <div />
-
-                    {/* invite text */}
-                    <div className="text-gray-400 text-lg">
-                        Пригласить игрока
-                    </div>
-
-                    {/* пустая колонка crown */}
-                    <div />
-                </>
+                <div className="text-sm font-medium text-gray-500">Свободный слот</div>
             )}
-
         </div>
     )
 }
