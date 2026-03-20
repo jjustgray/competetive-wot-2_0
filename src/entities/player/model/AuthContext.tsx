@@ -10,6 +10,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
+  const temp_login = (user: Player) => {
+    setMe(user)
+  }
+
   // 🔥 логин
   const login = async (newToken: string) => {
     setToken(newToken)
@@ -53,6 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isLoading,
         login,
         logout,
+        temp_login,
       }}
     >
       {children}

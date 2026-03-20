@@ -1,21 +1,32 @@
 "use client"
 
-import { createContext, useContext, useReducer } from "react"
+import { createContext, useContext, useEffect, useReducer } from "react"
 import { Team, TeamContextType } from "@/entities/team/model/types"
 import { Player } from "@/entities/player/model/types"
+import { useAuth } from "@/entities/player/model/hooks"
 import { teamReducer } from "./teamReducer"
 
 const TeamContext = createContext<TeamContextType | null>(null)
 
-export function TeamProvider({ children }: { children: React.ReactNode }) {
+export function TeamProvider({ children }: { children: React.ReactNode }) { 
+  const { me, temp_login } = useAuth()
 
-  const user: Player = {
-    id: "1001",
+  const guest: Player = {
+    id: "1002",
     nickname: "Crucial",
     avatar: "/images/avatar.jpeg",
     mmr: 1500,
     money: 50,
   }
+
+  const user = me ?? guest
+
+  useEffect(() => {
+    if (!me) {
+      temp_login(guest)
+    }
+  }, [me, temp_login])
+  
   const user_team: Team = {
     team_id: "100500",
     name: `team_${user.nickname}`,

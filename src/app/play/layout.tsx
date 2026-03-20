@@ -1,19 +1,16 @@
 import PlayTopbar from "@/widgets/shared-components/PlayTopbar";
 
-//import { TeamProvider } from "@/entities/team/model/TeamContext";
 export default function PlayLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    //<TeamProvider>
-      <div className="flex flex-col min-h-screen items-center">
+      <div className="flex flex-col flex-1 h-full w-full items-center">
         <PlayTopbar />
-        <div className="flex-1">
+        <div className="flex-1 w-full pt-2">
           {children}
         </div>
       </div>
-    //</TeamProvider>
   )
 }

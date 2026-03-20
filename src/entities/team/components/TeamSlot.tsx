@@ -9,30 +9,31 @@ type Props = {
 }
 
 export const TeamSlot = ({ player, isMe }: Props) => {
-    const slotClass = `
-        flex flex-col items-center justify-center gap-2 rounded-xl border p-3 text-center transition-all duration-200
-        ${isMe ? "scale-105 border-blue-500 bg-blue-50 shadow-[0_4px_14px_rgba(59,130,246,0.25)]" : "border-gray-200 bg-white"}
-    `
 
     return (
-        <div className={slotClass}>
-            {player ? (
+        <div className={`
+            flex flex-col flex-1 
+            bg-black border border-gray-600
+            text-white
+            items-center justify-center`}>
+                {player ? (
                 <>
-                    <div className="relative h-16 w-16 overflow-hidden rounded-full border border-gray-300 bg-gray-100">
+                    <div className="rounded-full">
                         <Image
                             src={player.avatar}
                             alt={player.nickname}
-                            fill
-                            className="object-cover"
+                            width={128}
+                            height={128}
+                            className="rounded-full"
                         />
                     </div>
-                    <div className="font-semibold text-sm text-gray-800">
+                    <div className="font-semibold text-m">
                         {player.nickname} {isMe && "(Вы)"}
                     </div>
-                    <div className="text-xs text-gray-500">Рейтинг: {player.mmr}</div>
+                    <div className="text-sm">Рейтинг: {player.mmr}</div>
                 </>
             ) : (
-                <div className="text-sm font-medium text-gray-500">Свободный слот</div>
+                <div className="flex-1 text-sm font-medium">Свободный слот</div>
             )}
         </div>
     )

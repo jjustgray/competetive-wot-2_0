@@ -12,4 +12,5 @@ export type AuthContextType = {
   isLoading: boolean
   login: (token: string) => Promise<void>
   logout: () => void
+  temp_login: (user: Player) => void
 }

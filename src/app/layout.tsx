@@ -19,15 +19,16 @@ export default function RootLayout({
       <head>
         <link rel='icon' type='image/x-icon' href='/images/logo.png' />
       </head>
-      <body className="bg-gray-900 text-white min-h-screen">
+      <body className="bg-gray-900 text-white h-screen overflow-hidden">
         <AuthProvider>
           <TeamProvider>
-            <div className="flex">
+            <div className="flex h-full">
               <div>
                 <Navbar />
               </div>
               <div className={`
-                flex-1 
+                flex-1
+                h-full
                 bg-[url('/images/bg.jpg')]  
                 bg-cover 
                 bg-center 

@@ -9,7 +9,7 @@ export const TeamChat: React.FC = () => {
         return (
             <div
                 onClick={() => setCollapsed(false)}
-                className="fixed left-24 bottom-6 z-40 w-72 rounded-xl border border-gray-600 bg-gray-900 p-2 shadow-lg transition hover:border-blue-400 hover:bg-gray-800"
+                className="w-150 rounded-xl border border-gray-600 bg-gray-900 p-2 shadow-lg transition hover:border-blue-400 hover:bg-gray-800"
             >
                 <div className="flex items-center gap-2">
                     <input
@@ -25,7 +25,7 @@ export const TeamChat: React.FC = () => {
     }
 
     return (
-        <div className="fixed left-24 bottom-6 z-40 w-72 rounded-xl border border-gray-500 bg-gray-900/80 p-3 shadow-2xl backdrop-blur transition hover:border-blue-400">
+        <div className="fixed left-24 bottom-6 z-40 w-150 rounded-xl border border-gray-500 bg-gray-900/80 p-3 shadow-2xl backdrop-blur transition hover:border-blue-400">
             <div className="flex items-center justify-between mb-2">
                 <h1 className="text-sm font-semibold text-white">Чат команды</h1>
                 <button

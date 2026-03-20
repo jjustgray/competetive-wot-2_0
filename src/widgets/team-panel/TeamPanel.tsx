@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import EditTeamName from "../../features/edit-team-name/components/EditTeamName";
 import { useTeam } from "@/entities/team/model/TeamContext";
 import { TeamSlot } from "@/entities/team/components/TeamSlot";
@@ -12,36 +11,36 @@ export default function TeamPanel() {
     const { me } = useAuth()
 
     const orderedSlots = useMemo(() => {
-        const normalized = [...team.slots]
+        const slots = team?.slots ?? []
+        if (slots.length === 0) return []
 
-        while (normalized.length < 7) {
-            normalized.push({ slot_id: -normalized.length - 1, player: null })
+        // 1) root must be "me" if present, otherwise first slot
+        const meIndex = slots.findIndex((slot) => slot.player?.id === me?.id)
+        const rootSlot = meIndex !== -1 ? slots[meIndex] : slots[0]
+
+        // 2) build array without root, preserving original slot order
+        const rest = slots.filter((_, index) => index !== meIndex)
+
+        // 3) split by positions for tree layout
+        const rightSlots = rest.filter((_, index) => index % 2 === 0) // positions 0,2,4 => output 1,3,5
+        const leftSlots = rest.filter((_, index) => index % 2 === 1) // positions 1,3,5 => output 2,4,6
+
+        // 4) interleave right and left to match comment semantics
+        const arranged = [rootSlot]
+        const maxLen = Math.max(rightSlots.length, leftSlots.length)
+
+        for (let i = 0; i < maxLen; i++) {
+            if (rightSlots[i]) arranged.push(rightSlots[i])
+            if (leftSlots[i]) arranged.push(leftSlots[i])
         }
 
-        if (normalized.length > 7) {
-            normalized.splice(7)
-        }
-
-        if (!me) {
-            return normalized
-        }
-
-        const meIndex = normalized.findIndex(slot => slot.player?.id === me.id)
-        if (meIndex === -1) {
-            return normalized
-        }
-
-        const meSlot = normalized[meIndex]
-        const others = normalized.filter((_, idx) => idx !== meIndex)
-        const left = others.slice(0, 3)
-        const right = others.slice(3, 6)
-        return [...left, meSlot, ...right]
-    }, [team.slots, me])
+        return arranged
+    }, [team, me])
 
     return (
-        <div className="shadow-md rounded-xl border border-gray-200 p-4 bg-gray-700">
+        <div className="flex flex-col h-full w-full bg-gray-700 p-2">
             <EditTeamName />
-            <div className="mt-4 grid grid-cols-7 gap-3">
+            <div className="w-full h-full grid grid-cols-7 gap-3 pt-2">
                 {orderedSlots.map((slot, index) => (
                     <TeamSlot
                         key={slot.slot_id ?? index}
