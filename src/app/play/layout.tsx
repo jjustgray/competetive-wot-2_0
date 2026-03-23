@@ -8,7 +8,7 @@ export default function PlayLayout({
   return (
       <div className="flex flex-col flex-1 h-full w-full items-center">
         <PlayTopbar />
-        <div className="flex-1 w-full pt-2">
+        <div className="flex-1 w-full">
           {children}
         </div>
       </div>

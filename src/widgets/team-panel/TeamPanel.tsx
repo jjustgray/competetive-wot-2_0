@@ -5,50 +5,67 @@ import { useTeam } from "@/entities/team/model/TeamContext";
 import { TeamSlot } from "@/entities/team/components/TeamSlot";
 import { useAuth } from "@/entities/player/model/hooks";
 import { useMemo } from "react";
+import { Player } from "@/entities/player/model/types";
 
 export default function TeamPanel() {
-    const { team } = useTeam()
-    const { me } = useAuth()
+    const { team, dispatch } = useTeam();
+    const { me } = useAuth();
+
+    const guest3: Player = {
+        id: "1009",
+        nickname: "neo",
+        avatar: "/images/logo.png",
+        mmr: 1600,
+        money: 60,
+    };
+
+    const addAnotherPlayer = (slot_id: number) => {
+        dispatch({
+            type: "ADD_PLAYER",
+            payload: {
+                slot_id,
+                player: guest3,
+            },
+        });
+    };
 
     const orderedSlots = useMemo(() => {
-        const slots = team?.slots ?? []
-        if (slots.length === 0) return []
+        const slots = team?.slots ?? [];
+        if (slots.length === 0) return [];
 
-        // 1) root must be "me" if present, otherwise first slot
-        const meIndex = slots.findIndex((slot) => slot.player?.id === me?.id)
-        const rootSlot = meIndex !== -1 ? slots[meIndex] : slots[0]
+        const meSlot =
+            slots.find((slot) => slot.player?.id === me?.id) ?? slots[0];
 
-        // 2) build array without root, preserving original slot order
-        const rest = slots.filter((_, index) => index !== meIndex)
+        const rest = slots.filter(
+            (slot) => slot.slot_id !== meSlot.slot_id
+        );
 
-        // 3) split by positions for tree layout
-        const rightSlots = rest.filter((_, index) => index % 2 === 0) // positions 0,2,4 => output 1,3,5
-        const leftSlots = rest.filter((_, index) => index % 2 === 1) // positions 1,3,5 => output 2,4,6
+        const leftSlots = rest
+            .filter((slot) => slot.slot_id % 2 === 0)
+            .reverse();
 
-        // 4) interleave right and left to match comment semantics
-        const arranged = [rootSlot]
-        const maxLen = Math.max(rightSlots.length, leftSlots.length)
+        const rightSlots = rest.filter(
+            (slot) => slot.slot_id % 2 !== 0
+        );
 
-        for (let i = 0; i < maxLen; i++) {
-            if (rightSlots[i]) arranged.push(rightSlots[i])
-            if (leftSlots[i]) arranged.push(leftSlots[i])
-        }
-
-        return arranged
-    }, [team, me])
+        return [...leftSlots, meSlot, ...rightSlots];
+    }, [team, me]);
 
     return (
         <div className="flex flex-col h-full w-full bg-gray-700 p-2">
             <EditTeamName />
-            <div className="w-full h-full grid grid-cols-7 gap-3 pt-2">
+
+            <div className="flex-1 min-h-0 grid grid-cols-7 gap-3 pt-2">
                 {orderedSlots.map((slot, index) => (
                     <TeamSlot
                         key={slot.slot_id ?? index}
                         player={slot.player}
+                        slotId={slot.slot_id}
                         isMe={!!(me && slot.player?.id === me.id)}
+                        onAddPlayer={addAnotherPlayer}
                     />
                 ))}
             </div>
         </div>
-    )
+    );
 }

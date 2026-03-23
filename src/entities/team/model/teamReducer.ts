@@ -13,21 +13,16 @@ export function teamReducer(team: Team, action: TeamAction): Team {
       }
 
     case "ADD_PLAYER":
+      const emptySlotIndex = team.slots.findIndex(slot => slot.player === null)
+      if (emptySlotIndex === -1) return team // no empty slots
+
       return {
         ...team,
-        // until backend is ready, we will add player to slot on frontend by dispatching action with slot_id and player data
-        slots: team.slots.map(slot => {
-          if (slot.player === null) {
-            return {
-              ...slot,
-              player: action.payload
-            }
-          }
-          return slot
-        })
-        // invite player on slot_id in team by pressing "+" button on slot card
-        // loading state for that slot until player accepts invite or refuse it
-        // if player accepts invite - add player to slot, if refuse - remove loading state
+        slots: team.slots.map((slot, index) =>
+          index === emptySlotIndex
+            ? { ...slot, player: action.payload.player }
+            : slot
+        )
       }
 
     case "REMOVE_PLAYER": {

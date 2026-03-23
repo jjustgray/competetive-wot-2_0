@@ -10,7 +10,7 @@ export default function MatchmakingPage() {
     //const [rulesOpened, setRulesOpened] = useState(false)
 
     return (
-        <div className="flex flex-col h-full w-full">
+        <div className="flex flex-col h-full w-full p-2">
             <div className="flex flex-col flex-1 w-full h-full">
                 <div className="flex-1 h-full w-full">
                     <TeamPanel />

@@ -2,7 +2,11 @@ import { Player } from "@/entities/player/model/types"
 
 export type TeamAction =
   | { type: "EDIT_TEAM_NAME"; payload: string }
-  | { type: "ADD_PLAYER"; payload: Player }
+  | { type: "ADD_PLAYER"; payload: {
+                slot_id: number,
+                player: Player,
+      } 
+    }
   | { type: "REMOVE_PLAYER"; payload: string }
   | { type: "CHANGE_CAPTAIN"; payload: Player }
   | { type: "SWAP_SLOTS"; payload: number; toSlot: number }

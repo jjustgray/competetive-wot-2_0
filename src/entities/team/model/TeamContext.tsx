@@ -15,8 +15,8 @@ export function TeamProvider({ children }: { children: React.ReactNode }) {
     id: "1002",
     nickname: "Crucial",
     avatar: "/images/avatar.jpeg",
-    mmr: 1500,
-    money: 50,
+    mmr: 1900,
+    money: 150,
   }
 
   const user = me ?? guest
