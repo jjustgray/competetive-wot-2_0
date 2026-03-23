@@ -1,9 +1,15 @@
 "use client"
 
-export default function MatchmakingButton() {
+interface MB_Props {
+    onClick: () => void;
+}
+
+export default function MatchmakingButton({onClick}: MB_Props) {
     return (
         <div>
-            <button className={`
+            <button 
+            onClick={onClick}
+            className={`
               w-full 
               bg-blue-500 
               hover:bg-blue-700 
@@ -12,7 +18,7 @@ export default function MatchmakingButton() {
               py-2 
               px-4
             `}>
-                ПОДБОР
+                ПОИСК
             </button>
         </div>
     )
